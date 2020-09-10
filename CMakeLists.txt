@@ -145,8 +145,7 @@ endif(BUILD_BENCHMARKS)
 # Configs that simplify using this project as a submodule.
 
 get_property(DIRS DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-set(CU_COLLECTIONS_INCLUDE_DIRS ${DIRS} "${CMAKE_CURRENT_SOURCE_DIR}"
-CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+set(CU_COLLECTIONS_INCLUDE_DIRS ${DIRS} "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 set(CMAKE_CUDA_FLAGS ${CMAKE_CUDA_FLAGS} CACHE STRING "CMAKE CUDA flags for cuCollections" FORCE)
 ###################################################################################################
