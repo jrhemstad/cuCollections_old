@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+﻿cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(CUCO_TESTS LANGUAGES C CXX CUDA)
 
@@ -28,7 +28,7 @@ CPMAddPackage(
 #  add_subdirectory(${catch_SOURCE_DIR} ${catch_BINARY_DIR})
 #endif()
 
-set(CATCH_INCLUDE_DIR "${catch_SOURCE_DIR}/single_include" )
+# set(CATCH_INCLUDE_DIR "${catch_SOURCE_DIR}/single_include" )
 
 ###################################################################################################
 # - include paths ---------------------------------------------------------------------------------
@@ -41,8 +41,7 @@ include_directories("${CMAKE_BINARY_DIR}/include"
                     "${CMAKE_SOURCE_DIR}/include"
                     "${CMAKE_SOURCE_DIR}"
                     "${CMAKE_CURRENT_SOURCE_DIR}"
-                    "${CMAKE_SOURCE_DIR}/thirdparty/cub"
-                    "${CATCH_INCLUDE_DIR}")
+                    "${CMAKE_SOURCE_DIR}/thirdparty/cub")
 
 ###################################################################################################
 # - library paths ---------------------------------------------------------------------------------
@@ -53,17 +52,16 @@ link_directories("${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}"
 
 # catch_main.cpp defines `CATCH_CONFIG_MAIN` which provides main() 
 # Compiles it to be linked into test executables
-add_library(CatchMain OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/catch_main.cpp ${CATCH_INCLUDE_DIR}/catch2/catch.hpp)
+# add_library(CatchMain OBJECT ${CMAKE_CURRENT_SOURCE_DIR}/catch_main.cpp ${CATCH_INCLUDE_DIR}/catch2/catch.hpp)
 
 
 ###################################################################################################
 function(ConfigureTest CMAKE_TEST_NAME CMAKE_TEST_SRC)
+    add_definitions(-DCATCH_CONFIG_MAIN)
     add_executable(${CMAKE_TEST_NAME}
-                   ${CMAKE_TEST_SRC}
-                   $<TARGET_OBJECTS:CatchMain>
-                   "${CATCH_INCLUDE_DIR}/catch2/catch.hpp")
-    set_target_properties(${CMAKE_TEST_NAME} PROPERTIES
-                            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+                   ${CMAKE_TEST_SRC})
+    set_target_properties(${CMAKE_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+    target_link_libraries(${CMAKE_TEST_NAME} Catch2)
     add_test(NAME ${CMAKE_TEST_NAME} COMMAND ${CMAKE_TEST_NAME})
     #set(CU_COLLECTIONS_TEST_LIST ${CU_COLLECTIONS_TEST_LIST} ${CMAKE_TEST_NAME} CACHE INTERNAL "CU_COLLECTIONS_TEST_LIST")
 endfunction(ConfigureTest)
@@ -71,8 +69,7 @@ endfunction(ConfigureTest)
 ###################################################################################################
 ### test sources ##################################################################################
 ###################################################################################################
-set(STATIC_MAP_TEST_SRC 
-    "${CMAKE_CURRENT_SOURCE_DIR}/static_map/static_map_test.cu")
+set(STATIC_MAP_TEST_SRC "${CMAKE_CURRENT_SOURCE_DIR}/static_map/static_map_test.cu")
 
 ConfigureTest(STATIC_MAP_TEST "${STATIC_MAP_TEST_SRC}")
 ####################################################################################################

@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #=============================================================================
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(cuCollections VERSION 0.0.1 LANGUAGES C CXX CUDA)
 
@@ -84,7 +84,7 @@ endif()
 
 foreach(arch ${GPU_ARCHS})
   message(STATUS ${arch})
-  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${arch},code=sm_${arch}")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${arch},code=compute_${arch}")
 endforeach()
 
 list(GET GPU_ARCHS -1 ptx)
@@ -122,6 +122,7 @@ endif()
 if (CU_COLLECTIONS_ENABLE_BUILD)
 if(BUILD_TESTS)
     add_subdirectory(${CMAKE_SOURCE_DIR}/tests)
+    enable_testing()
 endif(BUILD_TESTS)
 
 message(STATUS "CU_COLLECTIONS_TEST_LIST set to: ${CU_COLLECTIONS_TEST_LIST}")
@@ -145,8 +146,7 @@ endif(BUILD_BENCHMARKS)
 # Configs that simplify using this project as a submodule.
 
 get_property(DIRS DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-set(CU_COLLECTIONS_INCLUDE_DIRS ${DIRS} "${CMAKE_CURRENT_SOURCE_DIR}"
-CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
+set(CU_COLLECTIONS_INCLUDE_DIRS ${DIRS} "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "${PROJECT_NAME}: Include Directories" FORCE)
 
 set(CMAKE_CUDA_FLAGS ${CMAKE_CUDA_FLAGS} CACHE STRING "CMAKE CUDA flags for cuCollections" FORCE)
 ###################################################################################################

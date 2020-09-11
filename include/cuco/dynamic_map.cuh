@@ -18,7 +18,7 @@
 
 #include <thrust/device_vector.h>
 #include <cuco/detail/error.hpp>
-#include <cuda/std/atomic>
+#include <cuda/std/std/atomic>
 #include <cooperative_groups.h>
 #include <cub/cub.cuh>
 #include <cuco/static_map.cuh>
