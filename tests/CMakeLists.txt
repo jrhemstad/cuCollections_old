@@ -57,10 +57,10 @@ link_directories("${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}"
 
 ###################################################################################################
 function(ConfigureTest CMAKE_TEST_NAME CMAKE_TEST_SRC)
+    add_definitions(-DCATCH_CONFIG_MAIN)
     add_executable(${CMAKE_TEST_NAME}
                    ${CMAKE_TEST_SRC})
-    set_target_properties(${CMAKE_TEST_NAME} PROPERTIES
-                            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
+    set_target_properties(${CMAKE_TEST_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests")
     target_link_libraries(${CMAKE_TEST_NAME} Catch2)
     add_test(NAME ${CMAKE_TEST_NAME} COMMAND ${CMAKE_TEST_NAME})
     #set(CU_COLLECTIONS_TEST_LIST ${CU_COLLECTIONS_TEST_LIST} ${CMAKE_TEST_NAME} CACHE INTERNAL "CU_COLLECTIONS_TEST_LIST")

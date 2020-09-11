@@ -84,7 +84,7 @@ endif()
 
 foreach(arch ${GPU_ARCHS})
   message(STATUS ${arch})
-  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${arch},code=sm_${arch}")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${arch},code=compute_${arch}")
 endforeach()
 
 list(GET GPU_ARCHS -1 ptx)
@@ -122,6 +122,7 @@ endif()
 if (CU_COLLECTIONS_ENABLE_BUILD)
 if(BUILD_TESTS)
     add_subdirectory(${CMAKE_SOURCE_DIR}/tests)
+    enable_testing()
 endif(BUILD_TESTS)
 
 message(STATUS "CU_COLLECTIONS_TEST_LIST set to: ${CU_COLLECTIONS_TEST_LIST}")

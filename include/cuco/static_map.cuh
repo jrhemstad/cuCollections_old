@@ -20,7 +20,7 @@
 #include <thrust/distance.h>
 #include <thrust/functional.h>
 #include <cub/cub.cuh>
-#include <cuda/std/atomic>
+#include <cuda/std/std/atomic>
 
 #include <cuco/detail/cuda_memcmp.cuh>
 #include <cuco/detail/error.hpp>
